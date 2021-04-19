@@ -17,6 +17,8 @@ class Cart extends BaseController
 
     public function list(Request $request)
     {
+        // we use the data "as is", so no need for a Resource.
+        return $this->cartStore->list();
     }
 
     public function add(Request $request, $id)

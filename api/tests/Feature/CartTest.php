@@ -10,6 +10,14 @@ class CartTest extends TestCase
 {
     use WithFaker;
 
+    public function tearDown(): void
+    {
+        if (request()->hasSession()) {
+            request()->session()->flush();
+        }
+        parent::tearDown();
+    }
+
     private function getFakeProductData()
     {
         return [
@@ -46,11 +54,6 @@ class CartTest extends TestCase
 
     public function testAddMultipleTimes()
     {
-        $this->markTestIncomplete('TODO');
-    }
-
-    public function testListEmpty()
-    {
         $productId = $this->faker->uuid;
 
         $data = $this->getFakeProductData();
@@ -75,9 +78,35 @@ class CartTest extends TestCase
         }
     }
 
+    public function testListEmpty()
+    {
+        $response = $this->get('/api/cart');
+
+        $response->assertStatus(200);
+
+        $list = $response->decodeResponseJson();
+        $this->assertEmpty($list);
+    }
+
     public function testList()
     {
-        $this->markTestIncomplete('TODO');
+        $cartSessionData = [];
+        foreach(range(1, 5) as $_) {
+            $data = $this->getFakeProductData();
+            $cartSessionData[SessionCart::getKey($data['id'])] = [
+                'amount' => rand(1, 5),
+                'data' => $data
+            ];
+        }
+
+        $response = $this
+            ->withSession($cartSessionData)
+            ->get('/api/cart');
+
+        $response->assertStatus(200);
+
+        $list = $response->decodeResponseJson();
+        $this->assertEquals(5, count($list));
     }
 
     public function setChangeAmount()

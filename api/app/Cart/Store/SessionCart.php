@@ -26,7 +26,6 @@ class SessionCart implements Cart
 
     public function setAmount($productId, int $amount)
     {
-
     }
 
     public function delete($productId)
@@ -35,6 +34,7 @@ class SessionCart implements Cart
 
     public function list(): array
     {
+        return request()->session()->get('cart.products') ?? [];
     }
 
     public function clear()
