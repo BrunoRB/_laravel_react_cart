@@ -22,7 +22,7 @@ class CheckoutMail extends Mailable
     public function build()
     {
         return $this->from('example@example.com')
-            ->to(config('morsum.checkout_address'))
+            ->to(config('cart.checkout_address'))
             ->view('mail.checkout');
     }
 }
