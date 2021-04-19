@@ -40,4 +40,10 @@ storage system we want (session, database, etc). For simplicity (and time...) re
 
 ## Running
 
-...
+Back
+
+- cd api/
+- composer install
+- `php artisan serve`
+- .env vars
+    - `CART_STORAGE`, default to `session`, the only implemented value
