@@ -1,0 +1,160 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Cart app",
+        "description": "Simple laravel & Rect cart system",
+        "version": "0.0.1"
+    },
+    "paths": {
+        "/cart": {
+            "get": {
+                "tags": [
+                    "cart"
+                ],
+                "summary": "Return list of items in cart session",
+                "description": "",
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "333": {
+                                            "type": "object",
+                                            "example": {
+                                                "id": "333",
+                                                "productName": "Handmade Plastic Cheese",
+                                                "price": "828.00",
+                                                "imageUrl": "http://lorempixel.com/640/480/business",
+                                                "url": "https://otho.org",
+                                                "product": "Shirt"
+                                            }
+                                        },
+                                        "55": {
+                                            "type": "object",
+                                            "example": {
+                                                "id": "55",
+                                                "productName": "Handmade Plastic Cheese",
+                                                "price": "828.00",
+                                                "imageUrl": "http://lorempixel.com/640/480/business",
+                                                "url": "https://otho.org",
+                                                "product": "Shirt"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            }
+        },
+        "/cart/product/{id}": {
+            "put": {
+                "tags": [
+                    "cart"
+                ],
+                "summary": "Place a new item inside the cart",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "query",
+                        "description": "Product data",
+                        "required": true,
+                        "style": "form",
+                        "schema": {
+                            "type": "object",
+                            "example": {
+                                "id": "55",
+                                "productName": "Handmade Plastic Cheese",
+                                "price": "828.00",
+                                "imageUrl": "http://lorempixel.com/640/480/business",
+                                "url": "https://otho.org",
+                                "product": "Shirt"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "cart"
+                ],
+                "summary": "Remove item from cart",
+                "description": "",
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "cart"
+                ],
+                "summary": "Change the amount of data for a product inside the cart",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "amount",
+                        "in": "query",
+                        "description": "How many products",
+                        "required": true,
+                        "style": "form",
+                        "schema": {
+                            "type": "int"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            }
+        },
+        "/cart/checkout": {
+            "post": {
+                "tags": [
+                    "cart"
+                ],
+                "summary": "Checkout cart.",
+                "description": "",
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Nothing to checkout"
+                    }
+                }
+            }
+        }
+    },
+    "security": [
+        []
+    ]
+}
