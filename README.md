@@ -42,6 +42,7 @@ Back
     - `CART_STORAGE`, default to `session`, the only implemented value
     - `CHECKOUT_EMAIL_ADDRESS`, where to send the parsed checkout email.
         Defaults to null, and the app won't work properly without this value
+- You also have to set up your mail crendentials. Standard laravel mail vars. I recommend mailtrap.io for testing.
 
 Front
 - `cd client/`
@@ -101,4 +102,4 @@ class DoCheckoutJob imlements ShouldQueue
 
 ```
 
-Finally, I went here for something simple and quick to implement , but that is "feature complete" and displays my general understanding of the specs, stack and that I'm aware of what's missing if were to build it "for real". 
+Finally, the app is super rought around the edges, as I went for something simple and quick to implement , but that is "feature complete" and displays my general understanding of the specs, stack and that I'm aware of what's missing if were to build it "for real". 
