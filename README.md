@@ -37,6 +37,8 @@ storage system we want (session, database, etc). For simplicity (and time...) re
 
 - `/api/documentation`
 
+- `api/app/Cart/Http/Annotations.php`. It's probably wrong in some points, as I'm not super familiar with Swagger notation. FYI I started using it some years ago, but ended up going the GraphQL route (which gives you endpoint documentation "for free").
+
 
 ## Running
 
@@ -47,3 +49,7 @@ Back
 - `php artisan serve`
 - .env vars
     - `CART_STORAGE`, default to `session`, the only implemented value
+
+## Frontend
+
+ - Product API https://607c843867e653001757420d.mockapi.io/api/products/products?p=1&l=10 (it's missing a "total" value, but we'll hardcoded that as 100 in the code)
