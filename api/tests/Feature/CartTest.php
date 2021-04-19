@@ -52,6 +52,25 @@ class CartTest extends TestCase
         $this->assertEquals($data['productName'], $sessionData['data']['productName']);
     }
 
+    public function testInvalidAdd()
+    {
+        $productId = $this->faker->uuid;
+
+        $data = $this->getFakeProductData();
+        unset($data['id']);
+
+        $arr = [
+            [],
+            $data
+        ];
+        foreach($arr as $payload) {
+            $response = $this->json('put', '/api/cart/product/' . $productId, [
+                'data' => $payload
+            ]);
+            $response->assertStatus(422);
+        }
+    }
+
     public function testAddMultipleTimes()
     {
         $productId = $this->faker->uuid;
@@ -112,7 +131,7 @@ class CartTest extends TestCase
     public function testChangeAmountInexistent()
     {
         $response = $this
-            ->patch('/api/cart/product' . rand(1, 99), [
+            ->json('patch', '/api/cart/product' . rand(1, 99), [
                 'amount' => 5
             ]);
         $response->assertStatus(404);
@@ -128,7 +147,7 @@ class CartTest extends TestCase
 
         $response = $this
             ->withSession($cartSessionData)
-            ->patch('/api/cart/product/' . $data['id'], [
+            ->json('patch', '/api/cart/product/' . $data['id'], [
                 'amount' => 5
             ]);
         $response->assertStatus(200);
@@ -138,31 +157,84 @@ class CartTest extends TestCase
         $this->assertEquals(5, $sessionData['amount']);
     }
 
-    // public function testChangeToInvalidAmount()
-    // {
-    //     $response = $this
-    //         ->patch('/api/cart/' . rand(1, 99));
-    //     $response->assertStatus(400);
-    // }
-
-    public function testCheckoutEmptyCart()
+    public function testChangeToInvalidAmount()
     {
-        $this->markTestIncomplete('TODO');
-    }
+        $data = $this->getFakeProductData();
+        $cartSessionData[SessionCart::getKey($data['id'])] = [
+            'amount' => 1,
+            'data' => $data
+        ];
 
-    public function testCheckout()
-    {
-        $this->markTestIncomplete('TODO');
+        foreach([-10, -1, 0] as $i) {
+            $response = $this
+                ->withSession($cartSessionData)
+                ->json('patch', '/api/cart/product/' . $data['id'], [
+                    'amount' => -1
+                ]);
+            $response->assertStatus(422);
+        }
     }
 
     public function testDelete()
     {
-        $this->markTestIncomplete('TODO');
+        $data = $this->getFakeProductData();
+        $cartSessionData[SessionCart::getKey($data['id'])] = [
+            'amount' => 1,
+            'data' => $data
+        ];
+
+        $response = $this
+            ->withSession($cartSessionData)
+            ->json('delete', '/api/cart/product/' . $data['id']);
+        $response->assertStatus(200);
+        $this->assertFalse(
+            request()->session()->has(SessionCart::getKey($data['id']))
+        );
     }
 
-    public function testInexistent()
+    public function testDeleteInexistent()
     {
-        $this->markTestIncomplete('TODO');
+        $response = $this
+            ->json('delete', '/api/cart/product/' . rand(1, 1111111));
+        /**
+         * 200, we don't care if existed or not before, the end result is the same.
+         */
+        $response->assertStatus(200);
+    }
+
+    public function testCheckoutEmptyCart()
+    {
+        $response = $this
+            ->json('post', '/api/cart/checkout');
+        $response->assertStatus(404);
+    }
+
+    public function testCheckout()
+    {
+        // $this->markTestIncomplete('TODO');
+
+        $cartSessionData = [];
+        foreach(range(1, 5) as $_) {
+            $data = $this->getFakeProductData();
+            $cartSessionData[SessionCart::getKey($data['id'])] = [
+                'amount' => rand(1, 5),
+                'data' => $data
+            ];
+        }
+
+        $response = $this
+            ->withSession($cartSessionData)
+            ->json('post', '/api/cart/checkout');
+        $response->assertStatus(200);
+
+        foreach($cartSessionData as $id => $_) {
+            $this->assertFalse(
+                request()->session()->has(SessionCart::getKey($id))
+            );
+        }
+
+        // TODO assert emails was sent
+
     }
 
 }

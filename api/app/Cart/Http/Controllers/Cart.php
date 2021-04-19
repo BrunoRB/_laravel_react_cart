@@ -25,6 +25,7 @@ class Cart extends BaseController
     {
         $validated = $request->validate([
             'data' => 'required|array',
+            'data.id' => 'required',
             'data.productName' => 'required',
             'data.price' => 'required',
             'data.product' => 'required',
@@ -38,7 +39,7 @@ class Cart extends BaseController
     public function setAmount(Request $request, $id)
     {
         $validated = $request->validate([
-            'amount' => 'required|min:1'
+            'amount' => 'required|int|min:1'
         ]);
 
         $this->cartStore->setAmount($id, $validated['amount']);
@@ -46,9 +47,18 @@ class Cart extends BaseController
 
     public function delete($id)
     {
+        $this->cartStore->delete($id);
     }
 
     public function checkout()
     {
+        $data = $this->cartStore->list();
+        if (!$data) {
+            abort(404, 'Nothing to checkout');
+        }
+
+        // TODO send email
+
+        $this->cartStore->clear();
     }
 }

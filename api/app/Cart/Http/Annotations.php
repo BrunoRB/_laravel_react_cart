@@ -48,6 +48,7 @@
 
  *       ),
  *       @OA\Response(response=400, description="Bad request")
+ *       @OA\Response(response=422, description="Invalid parameters")
  *     )
  */
 
@@ -80,6 +81,7 @@
  *          description="successful operation"
  *       ),
  *       @OA\Response(response=400, description="Bad request")
+ *       @OA\Response(response=422, description="Invalid parameters")
  *     )
  */
 
@@ -105,6 +107,7 @@
  *          description="successful operation"
  *       ),
  *       @OA\Response(response=400, description="Bad request")
+ *       @OA\Response(response=422, description="Invalid parameters")
  *     )
  */
 
