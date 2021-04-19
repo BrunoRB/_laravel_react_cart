@@ -2,9 +2,11 @@
 
 namespace Tests\Feature;
 
+use App\Cart\Mail\CheckoutMail;
 use App\Cart\Store\SessionCart;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Mail;
 
 class CartTest extends TestCase
 {
@@ -211,7 +213,13 @@ class CartTest extends TestCase
 
     public function testCheckout()
     {
-        // $this->markTestIncomplete('TODO');
+        $target = $this->faker->safeEmail;
+        \Config::set('morsum.checkout_address', $target);
+
+        Mail::fake();
+
+        // Assert that no mailables were sent...
+        Mail::assertNothingSent();
 
         $cartSessionData = [];
         foreach(range(1, 5) as $_) {
@@ -233,8 +241,14 @@ class CartTest extends TestCase
             );
         }
 
-        // TODO assert emails was sent
+        Mail::assertSent(CheckoutMail::class, 1);
 
+        Mail::assertSent(function (CheckoutMail $mail) use ($target) {
+            $mail->build();
+
+            // dd($mail->viewData);
+            return $mail->hasTo($target);
+        });
     }
 
 }

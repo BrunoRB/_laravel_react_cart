@@ -2,9 +2,11 @@
 
 namespace App\Cart\Http\Controllers;
 
+use App\Cart\Mail\CheckoutMail;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
 use App\Cart\Store\Cart as CartStore;
+use Illuminate\Support\Facades\Mail;
 
 class Cart extends BaseController
 {
@@ -57,7 +59,7 @@ class Cart extends BaseController
             abort(404, 'Nothing to checkout');
         }
 
-        // TODO send email
+        Mail::send(new CheckoutMail($data));
 
         $this->cartStore->clear();
     }
