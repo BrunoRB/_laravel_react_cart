@@ -26,10 +26,18 @@ class SessionCart implements Cart
 
     public function setAmount($productId, int $amount)
     {
+        $key = self::getKey($productId);
+
+        $data = request()->session()->get($key);
+        if ($data) {
+            $data['amount'] = $amount;
+            request()->session()->put($key, $data);
+        }
     }
 
     public function delete($productId)
     {
+        request()->session()->forget(self::getKey($productId));
     }
 
     public function list(): array
@@ -39,6 +47,7 @@ class SessionCart implements Cart
 
     public function clear()
     {
+        return request()->session()->forget('cart.products');
     }
 
 }
