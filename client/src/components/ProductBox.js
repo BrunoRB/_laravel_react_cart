@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Box } from "@chakra-ui/react";
-import { Image } from "@chakra-ui/react";
+// import { Image } from "@chakra-ui/react";
 import { Button } from "@chakra-ui/react";
 import { addToCart } from "rest/cart";
 import { useToast } from "@chakra-ui/react";

@@ -71,7 +71,7 @@ const ProductList = () => {
           })}
         </SimpleGrid>
         <center></center>
-        <div style={{ "text-align": "center", "margin-top": "50px" }}>
+        <div style={{ textAlign: "center", marginTop: "50px" }}>
           {productList.length < total ? (
             isLoading ? (
               <Spinner></Spinner>

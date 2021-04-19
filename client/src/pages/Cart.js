@@ -53,7 +53,7 @@ const Cart = () => {
       .then((_) => {
         setList(
           cartList.map((cartProduct) => {
-            if (cartProduct.data.id == product.id) {
+            if (cartProduct.data.id === product.id) {
               cartProduct.amount = x;
             }
             return cartProduct;
@@ -83,7 +83,7 @@ const Cart = () => {
     removeFromCart(product)
       .then((_) => {
         setList(
-          cartList.filter((cartProduct) => cartProduct.data.id != product.id)
+          cartList.filter((cartProduct) => cartProduct.data.id !== product.id)
         );
         setIsLoading(false);
       })
@@ -133,7 +133,7 @@ const Cart = () => {
   } else if (isLoading) {
     return (
       <>
-        <div style={{ "text-align": "center", "margin-top": "10px" }}>
+        <div style={{ textAlign: "center", marginTop: "10px" }}>
           <Spinner size="xl" />
         </div>
       </>
@@ -150,7 +150,7 @@ const Cart = () => {
   } else {
     return (
       <>
-        <div style={{ "text-align": "center", "margin-top": "10px" }}>
+        <div style={{ textAlign: "center", marginTop: "10px" }}>
           <Button colorScheme="blue" variant="outline" onClick={handleCheckout}>
             Checkout
           </Button>
@@ -174,7 +174,7 @@ const Cart = () => {
                     <NumberDecrementStepper />
                   </NumberInputStepper>
                 </NumberInput>
-                <div style={{ "margin-top": "10px" }}>
+                <div style={{ marginTop: "10px" }}>
                   Total: ${data.amount * data.data.price}{" "}
                   <Button
                     colorScheme="red"
