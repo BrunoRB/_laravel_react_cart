@@ -50,18 +50,17 @@ const ProductBox = (props) => {
           {props.displayAddToCart ? (
             <Box>
               {props.product.product}
-              <br />
-              ${props.product.price}
+              <br />${props.product.price}
               <div>
-              <Button
-                isLoading={isLoading}
-                loadingText="Adding"
-                colorScheme="teal"
-                variant="outline"
-                onClick={handleAddToCart}
-              >
-                Add to cart
-              </Button>
+                <Button
+                  isLoading={isLoading}
+                  loadingText="Adding"
+                  colorScheme="teal"
+                  variant="outline"
+                  onClick={handleAddToCart}
+                >
+                  Add to cart
+                </Button>
               </div>
             </Box>
           ) : (
