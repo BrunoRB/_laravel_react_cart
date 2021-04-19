@@ -37,6 +37,11 @@ class Cart extends BaseController
 
     public function setAmount(Request $request, $id)
     {
+        $validated = $request->validate([
+            'amount' => 'required|min:1'
+        ]);
+
+        $this->cartStore->setAmount($id, $validated['amount']);
     }
 
     public function delete($id)

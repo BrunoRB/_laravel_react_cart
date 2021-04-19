@@ -109,20 +109,41 @@ class CartTest extends TestCase
         $this->assertEquals(5, count($list));
     }
 
-    public function setChangeAmount()
-    {
-        $this->markTestIncomplete('TODO');
-    }
-
     public function testChangeAmountInexistent()
     {
-        $this->markTestIncomplete('TODO');
+        $response = $this
+            ->patch('/api/cart/product' . rand(1, 99), [
+                'amount' => 5
+            ]);
+        $response->assertStatus(404);
     }
 
-    public function testChangeToInvalidAmount()
+    public function testSetChangeAmount()
     {
-        $this->markTestIncomplete('TODO');
+        $data = $this->getFakeProductData();
+        $cartSessionData[SessionCart::getKey($data['id'])] = [
+            'amount' => 1,
+            'data' => $data
+        ];
+
+        $response = $this
+            ->withSession($cartSessionData)
+            ->patch('/api/cart/product/' . $data['id'], [
+                'amount' => 5
+            ]);
+        $response->assertStatus(200);
+
+        $sessionData = request()->session()->get(SessionCart::getKey($data['id']));
+
+        $this->assertEquals(5, $sessionData['amount']);
     }
+
+    // public function testChangeToInvalidAmount()
+    // {
+    //     $response = $this
+    //         ->patch('/api/cart/' . rand(1, 99));
+    //     $response->assertStatus(400);
+    // }
 
     public function testCheckoutEmptyCart()
     {
