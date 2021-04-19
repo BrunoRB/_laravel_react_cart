@@ -6,10 +6,21 @@ class SessionCart implements Cart
 {
     public static function getKey($productId)
     {
+        return 'cart.products.' . $productId;
     }
 
     public function add($productId, array $data)
     {
+        $key = self::getKey($productId);
+
+        $count = request()->session()->get($key, [
+            'amount' => 0
+        ])['amount'];
+
+        request()->session()->put($key, [
+            'amount' => $count + 1,
+            'data' => $data
+        ]);
     }
 
 
@@ -24,7 +35,6 @@ class SessionCart implements Cart
 
     public function list(): array
     {
-        return [];
     }
 
     public function clear()

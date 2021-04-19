@@ -21,6 +21,16 @@ class Cart extends BaseController
 
     public function add(Request $request, $id)
     {
+        $validated = $request->validate([
+            'data' => 'required|array',
+            'data.productName' => 'required',
+            'data.price' => 'required',
+            'data.product' => 'required',
+            'data.url' => 'required|url',
+            'data.imageUrl' => 'required|url',
+        ]);
+
+         $this->cartStore->add($id, $validated['data']);
     }
 
     public function setAmount(Request $request, $id)
