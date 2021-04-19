@@ -1,19 +1,19 @@
 <?php
 
+use App\Cart\Http\Controllers\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware(['session'])->group(function () {
+    Route::get('/cart', [Cart::class, 'list']);
+
+    Route::put('/cart/product/{id}', [Cart::class, 'add']);
+
+    Route::patch('/cart/product/{id}', [Cart::class, 'setAmount']);
+
+    Route::delete('/cart/product/{id}', [Cart::class, 'delete']);
+
+
+    Route::post('/cart/checkout', [Cart::class, 'checkout']);
 });

@@ -31,7 +31,12 @@ storage system we want (session, database, etc). For simplicity (and time...) re
   - when an anonymous users logs in for the checkout process, we would move the whole cartsession to the databasession.
   - instead of clearing the whole cart, the checkout process would set a "checked_out_at" flag so that we don't lose information.
 
-- I won't place a lot of focus on the layout
+- I won't be placing a lot of focus on the layout
+
+## Api
+
+- `/api/documentation`
+
 
 ## Running
 
